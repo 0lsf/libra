@@ -1,0 +1,16 @@
+//! account: Alice, 1000000
+//! account: Bob, 1000000
+
+//! sender: Alice
+import 0x0.LibraAccount;
+import 0x0.LBR;
+import 0x0.Libra;
+
+main(account: &signer) {
+    let coins: Libra.T<LBR.T>;
+
+    coins = LibraAccount.withdraw_from<LBR.T>(copy(account), 42);
+    LibraAccount.deposit<LBR.T>(copy(account), {{bob}}, move(coins));
+
+    return;
+}

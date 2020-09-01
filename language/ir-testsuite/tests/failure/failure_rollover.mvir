@@ -1,0 +1,15 @@
+import 0x0.LibraAccount;
+import 0x0.LBR;
+import 0x0.Libra;
+
+main(account: &signer) {
+    let ten_coins: Libra.T<LBR.T>;
+
+    ten_coins = LibraAccount.withdraw_from<LBR.T>(copy(account), 10);
+    LibraAccount.deposit_to<LBR.T>(copy(account), move(ten_coins));
+    LibraAccount.deposit_to<LBR.T>(move(account), move(ten_coins));
+
+    return;
+}
+
+// check: MOVELOC_UNAVAILABLE_ERROR

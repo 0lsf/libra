@@ -1,0 +1,27 @@
+import 0x0.LibraAccount;
+import 0x0.LBR;
+import 0x0.Libra;
+import 0x0.Signer;
+
+main(account: &signer) {
+    let sender_balance: u64;
+    let all_coins: Libra.T<LBR.T>;
+    let one_coin: Libra.T<LBR.T>;
+    let addr: address;
+
+    addr = Signer.address_of(copy(account));
+    sender_balance = LibraAccount.balance<LBR.T>(copy(addr));
+    all_coins = LibraAccount.withdraw_from<LBR.T>(copy(account), move(sender_balance));
+
+    assert(LibraAccount.balance<LBR.T>(copy(addr)) == 0, 42);
+
+    one_coin = LibraAccount.withdraw_from<LBR.T>(copy(account), 1);
+
+    LibraAccount.deposit_to<LBR.T>(copy(account), move(all_coins));
+    LibraAccount.deposit_to<LBR.T>(copy(account), move(one_coin));
+
+    return;
+}
+
+// check: ABORTED
+// check: 10
